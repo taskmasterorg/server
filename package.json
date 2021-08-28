@@ -9,7 +9,7 @@
     "test": "npx jest --coverage",
     "docs": "apidoc -i src/api -o apidoc && apidoc-markdown -p apidoc -o docs/API.md",
     "pretty": "npx prettier --check .",
-    "lint": "npx eslint ."
+    "lint": "npx eslint . --fix"
   },
   "author": "viveknathani",
   "license": "MIT",
