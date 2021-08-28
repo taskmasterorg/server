@@ -4,7 +4,7 @@
   "description": "taskmaster's backend",
   "main": "src/app.ts",
   "scripts": {
-    "build": "npx tsc",
+    "build": "npm run test && npm run lint && npm run pretty && npx tsc",
     "start": "npm run build && node build/app.js",
     "test": "npx jest --coverage --passWithNoTests",
     "docs": "apidoc -i src/api -o apidoc && apidoc-markdown -p apidoc -o docs/API.md",
