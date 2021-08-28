@@ -6,9 +6,9 @@
   "scripts": {
     "build": "npx tsc",
     "start": "npm run build && node build/app.js",
-    "test": "npx jest --coverage",
+    "test": "npx jest --coverage --passWithNoTests",
     "docs": "apidoc -i src/api -o apidoc && apidoc-markdown -p apidoc -o docs/API.md",
-    "pretty": "npx prettier --check .",
+    "pretty": "npx prettier --write .",
     "lint": "npx eslint . --fix"
   },
   "author": "viveknathani",
