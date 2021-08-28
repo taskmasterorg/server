@@ -7,5 +7,5 @@ module.exports = {
     "database": process.env.DATABASE_NAME,
     "synchronize": true,
     "logging": true,
-    "entities": ["build/db/entity/*.js"]
+    "entities": ["build/database/index.js"]
 };
