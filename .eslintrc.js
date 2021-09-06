@@ -20,7 +20,8 @@ module.exports = {
         "no-duplicate-imports": "error",
         "@typescript-eslint/no-inferrable-types": "off",
         "@typescript-eslint/no-explicit-any": "off",
-        "linebreak-style": "error"
+        "linebreak-style": "error",
+        "@typescript-eslint/no-empty-function": "off"
     },
     
 };
