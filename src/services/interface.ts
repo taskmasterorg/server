@@ -6,6 +6,14 @@ interface authCredentials {
     password: string
 }
 
+interface orgMember {
+
+    firstName: string
+    lastName: string
+    role: string
+}
+
 export {
-    authCredentials
+    authCredentials,
+    orgMember
 }
