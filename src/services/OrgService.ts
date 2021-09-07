@@ -1,0 +1,178 @@
+import { Organization, OrganizationMember, User } from '../database';
+import { orgMember } from './interface';
+
+/**
+ * Implements features to needed to deal with an organization.
+ */
+class OrgService {
+
+    private static instance: OrgService;
+    private constructor() {}
+
+    /**
+     * Follows the singleton pattern.
+     * @returns an instance of this service
+     */
+    public static getInstance(): OrgService {
+
+        if (!OrgService.instance) {
+            OrgService.instance = new OrgService(); 
+        }
+
+        return OrgService.instance;
+    }
+
+    /**
+     * Get names of organizations the user belongs to.
+     * @param userId 
+     * @returns A list of strings
+     */
+    public static async getOrgsList(userId: string): Promise<string[]> {
+
+        let orgs: string[] = [];
+
+        let fromDB = await OrganizationMember.find({
+            where: {
+                userId: userId
+            }
+        });
+
+        if (fromDB !== undefined) {
+
+            for (let i = 0; i < fromDB.length; ++i) {
+                
+                orgs.push(fromDB[i].org.name);
+            }
+        }
+
+        return orgs;
+    }
+
+    /**
+     * Gives you a list of members in the given organization.
+     * @param orgId 
+     * @returns A list of members
+     */
+    public static async getOrgMembers(orgId: string): Promise<orgMember[]> {
+        
+        let members: orgMember[] = [];
+
+        let orgFromDB = await Organization.findOne({
+            where: {
+                id: orgId
+            }
+        });
+
+        if (orgFromDB !== undefined) {
+            
+            let membersFromDB = await OrganizationMember.find({
+                where: {
+                    org: orgFromDB
+                }
+            });
+
+            for (let i = 0; i < membersFromDB.length; ++i) {
+
+                let user = await User.findOne({
+                    where: {
+                        id: membersFromDB[i].userId
+                    }
+                });
+
+                if (user === undefined) {
+                    continue;
+                }
+
+                members.push({
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    role: membersFromDB[i].role
+                });
+            }
+        }
+
+        return members;
+    }
+
+    /**
+     * Add a member to an organization.
+     * @param org    Organization id as a string or an instance of the entity Organization
+     * @param userId  
+     * @param role   "admin" | "manager" | "developer"
+     */
+    public static async addOrgMember(org: string | Organization, userId: string, role: string): Promise<void> {
+
+        try {
+
+            let orgToUse: Organization;
+
+            if (typeof org === 'string') {
+
+                let orgFromDB = await Organization.findOne({
+                    where: {
+                        id: org
+                    }
+                });
+
+                if (orgFromDB === undefined) {
+
+                    throw new Error('This organization does not exist. Could not add member.');
+                }
+                orgToUse = orgFromDB;
+            } else {
+                orgToUse = org;
+            }
+
+            let member = OrganizationMember.create({
+                userId: userId,
+                org: orgToUse,
+                role: role
+            });
+
+            await member.save();
+
+        } catch (err) {
+
+            if (err instanceof Error) {
+                throw err;
+            }
+
+            if (typeof err === 'string') {
+                throw new Error(err);
+            }
+
+            throw new Error('Something went wrong.');
+        }
+    }
+
+    /**
+     * Creates an organization and makes the creator, the admin.
+     * @param userId   The creator
+     * @param orgName  User generated name for the organization
+     */
+    public static async createOrg(userId: string, orgName: string): Promise<void> {
+
+        try {
+            
+            let org = Organization.create({
+                name: orgName
+            });
+
+            let createdOrg = await org.save();
+            await this.addOrgMember(createdOrg, userId, 'admin');
+        } catch (err) {
+
+            if (err instanceof Error) {
+                throw err;
+            }
+
+            if (typeof err === 'string') {
+                throw new Error(err);
+            }
+
+            throw new Error('Something went wrong.');
+        }
+    }
+}
+
+export default OrgService;
