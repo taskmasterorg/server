@@ -27,7 +27,7 @@ class OrgService {
      * @param userId 
      * @returns A list of strings
      */
-    public static async getOrgsList(userId: string): Promise<string[]> {
+    public async getOrgsList(userId: string): Promise<string[]> {
 
         let orgs: string[] = [];
 
@@ -53,7 +53,7 @@ class OrgService {
      * @param orgId 
      * @returns A list of members
      */
-    public static async getOrgMembers(orgId: string): Promise<orgMember[]> {
+    public async getOrgMembers(orgId: string): Promise<orgMember[]> {
         
         let members: orgMember[] = [];
 
@@ -100,7 +100,7 @@ class OrgService {
      * @param userId  
      * @param role   "admin" | "manager" | "developer"
      */
-    public static async addOrgMember(org: string | Organization, userId: string, role: string): Promise<void> {
+    public async addOrgMember(org: string | Organization, userId: string, role: string): Promise<void> {
 
         try {
 
@@ -150,7 +150,7 @@ class OrgService {
      * @param userId   The creator
      * @param orgName  User generated name for the organization
      */
-    public static async createOrg(userId: string, orgName: string): Promise<void> {
+    public async createOrg(userId: string, orgName: string): Promise<void> {
 
         try {
             
