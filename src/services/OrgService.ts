@@ -98,7 +98,7 @@ class OrgService {
      * Add a member to an organization.
      * @param org    Organization id as a string or an instance of the entity Organization
      * @param userId  
-     * @param role   "admin" | "manager" | "developer"
+     * @param role   "admin" | "user"
      */
     public async addOrgMember(org: string | Organization, userId: string, role: string): Promise<void> {
 
