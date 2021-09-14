@@ -1,0 +1,11 @@
+{
+    "name": "taskmaster",
+    "version": "0.1.0",
+    "description": "API docs for the taskmaster server.",
+    "title": "Inventory - API docs",
+    "useHostUrlAsSampleUrl": "false",
+    "url" : "https://taskmaster.org/",
+    "order": [
+        "Auth"
+    ]
+}
