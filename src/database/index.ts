@@ -6,6 +6,7 @@ import OrganizationMember from './entity/OrganizationMember';
 import Team from './entity/Team';
 import TeamMember from './entity/TeamMember';
 import User from './entity/User';
+import CacheLayer from './CacheLayer';
 
 export {
     createConnection,
@@ -15,5 +16,6 @@ export {
     Team,
     TeamMember,
     Bug,
-    Chat
+    Chat,
+    CacheLayer
 }
