@@ -52,9 +52,9 @@ class TeamService {
 
         try {
 
-            let teamsList: Team[] = [];
+            const teamsList: Team[] = [];
 
-            let listFromDB = await TeamMember.find({
+            const listFromDB = await TeamMember.find({
                 where: {
                     userId
                 }

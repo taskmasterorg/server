@@ -29,9 +29,9 @@ class OrgService {
      */
     public async getOrgsList(userId: string): Promise<string[]> {
 
-        let orgs: string[] = [];
+        const orgs: string[] = [];
 
-        let fromDB = await OrganizationMember.find({
+        const fromDB = await OrganizationMember.find({
             where: {
                 userId: userId
             }
@@ -55,9 +55,9 @@ class OrgService {
      */
     public async getOrgMembers(orgId: string): Promise<orgMember[]> {
         
-        let members: orgMember[] = [];
+        const members: orgMember[] = [];
 
-        let orgFromDB = await Organization.findOne({
+        const orgFromDB = await Organization.findOne({
             where: {
                 id: orgId
             }
@@ -65,7 +65,7 @@ class OrgService {
 
         if (orgFromDB !== undefined) {
             
-            let membersFromDB = await OrganizationMember.find({
+            const membersFromDB = await OrganizationMember.find({
                 where: {
                     org: orgFromDB
                 }
@@ -73,7 +73,7 @@ class OrgService {
 
             for (let i = 0; i < membersFromDB.length; ++i) {
 
-                let user = await User.findOne({
+                const user = await User.findOne({
                     where: {
                         id: membersFromDB[i].userId
                     }
@@ -108,7 +108,7 @@ class OrgService {
 
             if (typeof org === 'string') {
 
-                let orgFromDB = await Organization.findOne({
+                const orgFromDB = await Organization.findOne({
                     where: {
                         id: org
                     }
@@ -123,7 +123,7 @@ class OrgService {
                 orgToUse = org;
             }
 
-            let member = OrganizationMember.create({
+            const member = OrganizationMember.create({
                 userId: userId,
                 org: orgToUse,
                 role: role
@@ -154,11 +154,11 @@ class OrgService {
 
         try {
             
-            let org = Organization.create({
+            const org = Organization.create({
                 name: orgName
             });
 
-            let createdOrg = await org.save();
+            const createdOrg = await org.save();
             await this.addOrgMember(createdOrg, userId, 'admin');
         } catch (err) {
 
