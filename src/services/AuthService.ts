@@ -1,9 +1,8 @@
 import { authCredentials } from './interface';
-import { User } from '../database';
+import { User, CacheLayer } from '../database';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from '../config';
-import { RedisClient } from 'redis';
 
 /**
  * Implements the authentication functionality.
@@ -11,11 +10,14 @@ import { RedisClient } from 'redis';
 class AuthService {
 
     private static instance: AuthService;
+    private static memory: CacheLayer;
     private errorMessageName: string = 'Firstname and lastname are required for signing up.';
     private errorMessageCredFormat: string = 'Invalid email/password format. (Password: Minimum eight characters, at least one letter and one number)';
     private errorMessageEmail: string = 'Email exists in the database.';
     private errorMessageLogin: string = 'Invalid email/password combination.';
-    private constructor() {}
+    private constructor() {
+        AuthService.memory = CacheLayer.getInstance();
+    }
 
     /**
      * Follows the singleton pattern.
@@ -85,11 +87,14 @@ class AuthService {
      * @param token The JWT
      * @returns An error if it occurs, decoded content otherwise.
      */
-    public async verifyAndDecodeJWT(token: string, memory: RedisClient): Promise<Error | any> {
+    public async verifyAndDecodeJWT(token: string, memory: CacheLayer = AuthService.memory): Promise<Error | any> {
 
-        if (memory.get(token)) {
-
-            return new Error('Invalid token');
+        const cache = await memory.get(token);
+        console.log('cache');
+        console.log(cache);
+        console.log('cache');
+        if (cache == 'true') {
+            return new Error('Token is blacklisted');
         }
 
         try {
@@ -105,9 +110,9 @@ class AuthService {
      * @param memory Instance of RedisClient
      * @param token The JWT
      */
-    public async logout(token: string, memory: RedisClient): Promise<void> {
+    public async logout(token: string, memory: CacheLayer = AuthService.memory): Promise<void> {
 
-        this.blacklistJWT(token, memory);
+        await this.blacklistJWT(token, memory);
     }
 
     private static createError(err: string | Error | unknown): Error {
@@ -121,9 +126,9 @@ class AuthService {
         return new Error('Something went wrong!');
     }
 
-    private blacklistJWT(token: string, memory: RedisClient): void {
+    private async blacklistJWT(token: string, memory: CacheLayer): Promise<void> {
 
-        memory.set(token, 'true');
+        await memory.set(token, 'true');
     }
 
     private validCredentials(email: string, password: string): boolean {
@@ -157,7 +162,11 @@ class AuthService {
 
     private async comparePassword(credentials: authCredentials): Promise<boolean> {
 
-        const user: User | undefined = await User.findOne(credentials);
+        const user: User | undefined = await User.findOne({
+            where: {
+                email: credentials.email
+            }
+        });
         
         if (user === undefined) {
             return false;
@@ -174,7 +183,11 @@ class AuthService {
 
     private async getUserId(credentials: authCredentials): Promise<Error | string> {
 
-        const user: User | undefined = await User.findOne(credentials);
+        const user: User | undefined = await User.findOne({
+            where: {
+                email: credentials.email
+            }
+        });
         
         if (user === undefined) {
             return new Error('User does not exist.');
