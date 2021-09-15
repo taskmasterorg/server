@@ -1,4 +1,4 @@
-import { createConnection } from 'typeorm';
+import { createConnection, createConnections } from 'typeorm';
 import Bug from './entity/Bug';
 import Chat from './entity/Chat';
 import Organization from './entity/Organization';
@@ -9,7 +9,7 @@ import User from './entity/User';
 import CacheLayer from './CacheLayer';
 
 export {
-    createConnection,
+    createConnection as connectToDatabase,
     User,
     Organization,
     OrganizationMember,
