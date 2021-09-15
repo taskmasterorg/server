@@ -1,5 +1,5 @@
 import { Organization, OrganizationMember, User } from '../database';
-import { orgMember } from './interface';
+import { orgMember, orgStructure } from './interface';
 
 /**
  * Implements features to needed to deal with an organization.
@@ -27,9 +27,9 @@ class OrgService {
      * @param userId 
      * @returns A list of strings
      */
-    public async getOrgsList(userId: string): Promise<string[]> {
+    public async getOrgsList(userId: string): Promise<orgStructure[]> {
 
-        const orgs: string[] = [];
+        const orgs: orgStructure[] = [];
 
         const fromDB = await OrganizationMember.find({
             where: {
@@ -41,7 +41,10 @@ class OrgService {
 
             for (let i = 0; i < fromDB.length; ++i) {
                 
-                orgs.push(fromDB[i].org.name);
+                orgs.push({
+                    orgId: fromDB[i].org.id,
+                    orgName: fromDB[i].org.name
+                });
             }
         }
 

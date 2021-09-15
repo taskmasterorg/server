@@ -28,8 +28,14 @@ interface bugStructure {
     priority: number;
 }
 
+interface orgStructure {
+    orgId: string,
+    orgName: string
+}
+
 export {
     authCredentials,
     orgMember,
-    bugStructure
+    bugStructure,
+    orgStructure
 }
