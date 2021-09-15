@@ -1,4 +1,4 @@
-import express, { Router } from 'express';
+import express, { Router, NextFunction } from 'express';
 import { errorMessage5XX, errorMessage400 } from './util';
 import { AuthService } from '../services';
 
@@ -76,21 +76,8 @@ authRouter.post('/login', async (req: express.Request, res: express.Response) =>
     }
 });
 
-/**
- * @api {post} /api/v1/auth/login User login
- * @apiName Auth
- * @apiGroup Auth
- * @apiError (ServerError) {json} 500 
- * @apiSuccessExample {json} Success-Response:
- *     HTTP/1.1 200
- *      {
- *          "userId": "abc",
- *          "iat": "1393286893",
- *          "exp": "1393286893"
- *      }
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
- */
-authRouter.post('/verifyJWT', async (req: express.Request, res: express.Response) => {
+async function verifyTokenMiddleWare(req: express.Request, res: express.Response, next: NextFunction) {
+
     try {
         const { token } = req.cookies;
         const serviceResponse = await authService.verifyAndDecodeJWT(token);
@@ -98,14 +85,14 @@ authRouter.post('/verifyJWT', async (req: express.Request, res: express.Response
             res.status(400).json({ 
                 message: errorMessage400,
                 detail: serviceResponse.message });
-            return;
         }
-        res.status(201).json(serviceResponse);
+        req.body.serviceResponse = serviceResponse;
+        next();
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: errorMessage5XX });
     }
-});
+}
 
 /**
  * @api {post} /api/v1/auth/logout User logout
@@ -132,4 +119,40 @@ authRouter.post('/logout', async (req: express.Request, res: express.Response) =
     }
 });
 
-export default authRouter;
+/**
+ * @api {post} /api/v1/auth/verifyJWT Token verification
+ * @apiName Auth
+ * @apiGroup Auth
+ * @apiError (ServerError) {json} 500 
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200
+ *      {
+ *          "userId": "abc",
+ *          "iat": "1393286893",
+ *          "exp": "1393286893"
+ *      }
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
+ authRouter.use('/', verifyTokenMiddleWare);
+ authRouter.post('/verifyJWT', async (req: express.Request, res: express.Response) => {
+     
+     try {
+         const { serviceResponse } = req.body;
+         if (serviceResponse instanceof Error) {
+             res.status(400).json({ 
+                 message: errorMessage400,
+                 detail: serviceResponse.message });
+         }
+         res.status(201).json({
+             serviceResponse: serviceResponse
+         });
+     } catch(err) {
+         console.error(err);
+         res.status(500).json({ message: errorMessage5XX });
+     }
+ });
+
+export {
+    authRouter,
+    verifyTokenMiddleWare
+}
