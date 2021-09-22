@@ -1,19 +1,72 @@
 <a name="top"></a>
 # taskmaster v0.1.0
 
-API docs for the inventory microservice.
+API docs for the taskmaster server.
 
 # Table of contents
 
 - [Auth](#Auth)
+  - [Token verification](#Token-verification)
   - [User login](#User-login)
   - [User logout](#User-logout)
   - [User signup](#User-signup)
+- [Bug](#Bug)
+  - [Assign a bug to a member](#Assign-a-bug-to-a-member)
+  - [Create a bug](#Create-a-bug)
+  - [Get all bugs of a team](#Get-all-bugs-of-a-team)
+  - [Get bug with id](#Get-bug-with-id)
+  - [Update bug priority](#Update-bug-priority)
+  - [Update bug status](#Update-bug-status)
+- [Org](#Org)
+  - [Add a member to an org](#Add-a-member-to-an-org)
+  - [Create an org](#Create-an-org)
+  - [Get all members of an org](#Get-all-members-of-an-org)
+  - [Get all orgs](#Get-all-orgs)
+- [Team](#Team)
+  - [Create a team](#Create-a-team)
+  - [Get all teams of the user](#Get-all-teams-of-the-user)
+  - [Get team with id](#Get-team-with-id)
 
 ___
 
 
 # <a name='Auth'></a> Auth
+
+## <a name='Token-verification'></a> Token verification
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+POST /api/v1/auth/verifyJWT
+```
+
+### Success response example
+
+#### Success response example - `Success-Response:`
+
+```json
+HTTP/1.1 201
+ {
+     "userId": "abc",
+     "iat": "1393286893",
+     "exp": "1393286893"
+ }
+```
+
+### Error response
+
+#### Error response - `ClientError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 400 | `json` |  |
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
 
 ## <a name='User-login'></a> User login
 [Back to top](#top)
@@ -44,6 +97,12 @@ HTTP/1.1 200
 
 ### Error response
 
+#### Error response - `ClientError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 400 | `json` |  |
+
 #### Error response - `ServerError`
 
 | Name     | Type       | Description                           |
@@ -64,7 +123,7 @@ POST /api/v1/auth/logout
 #### Success response example - `Success-Response:`
 
 ```json
-HTTP/1.1 200
+HTTP/1.1 201
  {
      "message": "Okay"
  }
@@ -99,10 +158,338 @@ POST /api/v1/auth/signup
 #### Success response example - `Success-Response:`
 
 ```json
-HTTP/1.1 200
+HTTP/1.1 201
  {
      "message": "Created!"
  }
+```
+
+### Error response
+
+#### Error response - `ClientError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 400 | `json` |  |
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
+# <a name='Bug'></a> Bug
+
+## <a name='Assign-a-bug-to-a-member'></a> Assign a bug to a member
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+PUT /api/v1/bug/assign
+```
+
+### Parameters - `Parameter`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| bugId | `string` |  |
+| teamMemberId | `string` |  |
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
+## <a name='Create-a-bug'></a> Create a bug
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+POST /api/v1/bug/
+```
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
+## <a name='Get-all-bugs-of-a-team'></a> Get all bugs of a team
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+GET /api/v1/bug/all/:teamId
+```
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
+## <a name='Get-bug-with-id'></a> Get bug with id
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+GET /api/v1/bug/one/:id
+```
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
+## <a name='Update-bug-priority'></a> Update bug priority
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+PUT /api/v1/bug/priority
+```
+
+### Parameters - `Parameter`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| bugId | `string` |  |
+| priorityNumber | `number` |  |
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
+## <a name='Update-bug-status'></a> Update bug status
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+PUT /api/v1/bug/assign
+```
+
+### Parameters - `Parameter`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| bugId | `string` |  |
+| status | `number` |  |
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
+# <a name='Org'></a> Org
+
+## <a name='Add-a-member-to-an-org'></a> Add a member to an org
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+POST /api/v1/org/addMember
+```
+
+### Parameters - `Parameter`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| orgId | `string` |  |
+| userId | `string` |  |
+| role | `string` |  |
+
+### Success response example
+
+#### Success response example - `Success-Response:`
+
+```json
+HTTP/1.1 201
+  { 
+     message: "Added!"
+   }
+```
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
+## <a name='Create-an-org'></a> Create an org
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+POST /api/v1/org/create
+```
+
+### Parameters - `Parameter`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| userId | `string` |  |
+| orgName | `string` |  |
+
+### Success response example
+
+#### Success response example - `Success-Response:`
+
+```json
+HTTP/1.1 201
+     { 
+         "message": "Created!"
+     }
+```
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
+## <a name='Get-all-members-of-an-org'></a> Get all members of an org
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+GET /api/v1/org/members/:orgId
+```
+
+### Success response example
+
+#### Success response example - `Success-Response:`
+
+```json
+HTTP/1.1 200
+ [
+     { 
+       "firstName": "abc",
+       "lastName": "name",
+       "role": "dev"  
+     }
+ ]
+```
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
+## <a name='Get-all-orgs'></a> Get all orgs
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+GET /api/v1/org/all/:userId
+```
+
+### Success response example
+
+#### Success response example - `Success-Response:`
+
+```json
+HTTP/1.1 200
+ [
+     { 
+       "orgId": "abc",
+       "orgName": "name"
+     }
+ ]
+```
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
+# <a name='Team'></a> Team
+
+## <a name='Create-a-team'></a> Create a team
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+POST /api/v1/team/
+```
+
+### Parameters - `Parameter`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| orgId | `string` |  |
+| orgName | `string` |  |
+| teamName | `string` |  |
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
+## <a name='Get-all-teams-of-the-user'></a> Get all teams of the user
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+GET /api/v1/team/all/:userId
+```
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
+## <a name='Get-team-with-id'></a> Get team with id
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+GET /api/v1/team/one/:teamId
 ```
 
 ### Error response
