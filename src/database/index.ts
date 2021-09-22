@@ -1,4 +1,4 @@
-import { createConnection, createConnections } from 'typeorm';
+import { createConnection } from 'typeorm';
 import Bug from './entity/Bug';
 import Chat from './entity/Chat';
 import Organization from './entity/Organization';
