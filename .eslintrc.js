@@ -23,5 +23,4 @@ module.exports = {
         "linebreak-style": "error",
         "@typescript-eslint/no-empty-function": "off"
     },
-    
 };
