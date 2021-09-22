@@ -1,11 +1,25 @@
 import express, { Router } from 'express';
 import { errorMessage5XX } from './util';
-import { orgMember, orgStructure } from '../services/interface';
-import OrgService from '../services/OrgService';
+import { orgMember, orgStructure, OrgService } from '../services/';
 
 const orgService: OrgService = OrgService.getInstance();
 const orgRouter: Router = express.Router();
 
+/**
+ * @api {get} /api/v1/org/all/:userId Get all orgs
+ * @apiName Org
+ * @apiGroup Org
+ * @apiError (ServerError) {json} 500 
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200
+ *      [
+ *          { 
+ *            "orgId": "abc",
+ *            "orgName": "name"
+ *          }
+ *      ]
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
 orgRouter.get('/all/:userId', async (req: express.Request, res: express.Response) => {
     
     try {
@@ -18,6 +32,22 @@ orgRouter.get('/all/:userId', async (req: express.Request, res: express.Response
     }
 });
 
+/**
+ * @api {get} /api/v1/org/members/:orgId Get all members of an org
+ * @apiName Org
+ * @apiGroup Org
+ * @apiError (ServerError) {json} 500 
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200
+ *      [
+ *          { 
+ *            "firstName": "abc",
+ *            "lastName": "name",
+ *            "role": "dev"  
+ *          }
+ *      ]
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
 orgRouter.get('/members/:orgId', async (req: express.Request, res: express.Response) => {
 
     try {
@@ -30,6 +60,20 @@ orgRouter.get('/members/:orgId', async (req: express.Request, res: express.Respo
     }
 });
 
+/**
+ * @api {post} /api/v1/org/create Create an org
+ * @apiName Org
+ * @apiGroup Org
+ * @apiParam {string} userId
+ * @apiParam {string} orgName
+ * @apiError (ServerError) {json} 500 
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 201
+ *          { 
+ *              "message": "Created!"
+ *          }
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
 orgRouter.post('/create', async (req: express.Request, res: express.Response) => {
 
     try {
@@ -44,6 +88,21 @@ orgRouter.post('/create', async (req: express.Request, res: express.Response) =>
     }
 });
 
+/**
+ * @api {post} /api/v1/org/addMember Add a member to an org
+ * @apiName Org
+ * @apiGroup Org
+ * @apiParam {string} orgId
+ * @apiParam {string} userId
+ * @apiParam {string} role
+ * @apiError (ServerError) {json} 500 
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 201
+  *       { 
+ *          message: "Added!"
+ *        }
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
 orgRouter.post('/addMember', async (req: express.Request, res: express.Response) => {
 
     try {

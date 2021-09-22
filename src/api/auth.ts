@@ -13,16 +13,17 @@ const authService: AuthService = AuthService.getInstance();
  * @apiParam {string} lastName
  * @apiParam {string} email
  * @apiParam {string} password
+ * @apiError (ClientError) {json} 400
  * @apiError (ServerError) {json} 500 
  * @apiSuccessExample {json} Success-Response:
- *     HTTP/1.1 200
+ *     HTTP/1.1 201
  *      {
  *          "message": "Created!"
  *      }
  */
 authRouter.post('/signup', async (req: express.Request, res: express.Response) => {
     try {
-
+        
         const bodyData = {...req.body};
         const serviceResponse = await authService.signup(bodyData);
         if (serviceResponse instanceof Error) {
@@ -44,6 +45,7 @@ authRouter.post('/signup', async (req: express.Request, res: express.Response) =
  * @apiGroup Auth
  * @apiParam {string} email
  * @apiParam {string} password
+ * @apiError (ClientError) {json} 400
  * @apiError (ServerError) {json} 500 
  * @apiSuccessExample {json} Success-Response:
  *     HTTP/1.1 200
@@ -76,7 +78,7 @@ authRouter.post('/login', async (req: express.Request, res: express.Response) =>
     }
 });
 
-async function verifyTokenMiddleWare(req: express.Request, res: express.Response, next: NextFunction) {
+async function verifyTokenMiddleWare(req: express.Request, res: express.Response, next: NextFunction): Promise<any> {
 
     try {
         const { token } = req.cookies;
@@ -85,6 +87,7 @@ async function verifyTokenMiddleWare(req: express.Request, res: express.Response
             res.status(400).json({ 
                 message: errorMessage400,
                 detail: serviceResponse.message });
+            return;
         }
         req.body.serviceResponse = serviceResponse;
         next();
@@ -100,7 +103,7 @@ async function verifyTokenMiddleWare(req: express.Request, res: express.Response
  * @apiGroup Auth
  * @apiError (ServerError) {json} 500 
  * @apiSuccessExample {json} Success-Response:
- *     HTTP/1.1 200
+ *     HTTP/1.1 201
  *      {
  *          "message": "Okay"
  *      }
@@ -123,9 +126,10 @@ authRouter.post('/logout', async (req: express.Request, res: express.Response) =
  * @api {post} /api/v1/auth/verifyJWT Token verification
  * @apiName Auth
  * @apiGroup Auth
+ * @apiError (ClientError) {json} 400
  * @apiError (ServerError) {json} 500 
  * @apiSuccessExample {json} Success-Response:
- *     HTTP/1.1 200
+ *     HTTP/1.1 201
  *      {
  *          "userId": "abc",
  *          "iat": "1393286893",
@@ -142,6 +146,7 @@ authRouter.post('/logout', async (req: express.Request, res: express.Response) =
              res.status(400).json({ 
                  message: errorMessage400,
                  detail: serviceResponse.message });
+            return;
          }
          res.status(201).json({
              serviceResponse: serviceResponse

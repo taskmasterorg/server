@@ -5,6 +5,13 @@ import BugService from '../services/BugService';
 const bugService: BugService = BugService.getInstance();
 const bugRouter: Router = express.Router();
 
+/**
+ * @api {get} /api/v1/bug/one/:id Get bug with id
+ * @apiName Bug
+ * @apiGroup Bug
+ * @apiError (ServerError) {json} 500 
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
 bugRouter.get('/one/:id', async (req: express.Request, res: express.Response) => {
     try {
         const bug = await bugService.getBug(req.params.id);
@@ -15,6 +22,13 @@ bugRouter.get('/one/:id', async (req: express.Request, res: express.Response) =>
     } 
 });
 
+/**
+ * @api {get} /api/v1/bug/all/:teamId Get all bugs of a team
+ * @apiName Bug
+ * @apiGroup Bug
+ * @apiError (ServerError) {json} 500 
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
 bugRouter.get('/all/:teamId', async (req: express.Request, res: express.Response) => {
     try {
         const bugs = await bugService.getBugs(req.params.teamId);
@@ -25,6 +39,14 @@ bugRouter.get('/all/:teamId', async (req: express.Request, res: express.Response
     } 
 });
 
+/**
+ * @api {post} /api/v1/bug/ Create a bug
+ * @apiName Bug
+ * @apiGroup Bug
+ * @apiError (ServerError) {json} 500 
+ * @apiDescription For parameters, refer bugStructure at: https://github.com/taskmasterorg/server/blob/main/src/services/interface.ts
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
 bugRouter.post('/', async (req: express.Request, res: express.Response) => {
     try {
         const bug = await bugService.createBug({...req.body});
@@ -35,6 +57,15 @@ bugRouter.post('/', async (req: express.Request, res: express.Response) => {
     } 
 });
 
+/**
+ * @api {put} /api/v1/bug/assign Assign a bug to a member
+ * @apiName Bug
+ * @apiGroup Bug
+ * @apiParam {string} bugId
+ * @apiParam {string} teamMemberId
+ * @apiError (ServerError) {json} 500 
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
 bugRouter.put('/assign', async (req: express.Request, res: express.Response) => {
     try {
         const { bugId, teamMemberId } = req.body;
@@ -46,6 +77,15 @@ bugRouter.put('/assign', async (req: express.Request, res: express.Response) => 
     } 
 });
 
+/**
+ * @api {put} /api/v1/bug/assign Update bug status
+ * @apiName Bug
+ * @apiGroup Bug
+ * @apiParam {string} bugId
+ * @apiParam {number} status
+ * @apiError (ServerError) {json} 500 
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
 bugRouter.put('/status', async (req: express.Request, res: express.Response) => {
     try {
         const { bugId, status } = req.body;
@@ -57,6 +97,15 @@ bugRouter.put('/status', async (req: express.Request, res: express.Response) => 
     } 
 });
 
+/**
+ * @api {put} /api/v1/bug/priority Update bug priority
+ * @apiName Bug
+ * @apiGroup Bug
+ * @apiParam {string} bugId
+ * @apiParam {number} priorityNumber
+ * @apiError (ServerError) {json} 500 
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
 bugRouter.put('/priority', async (req: express.Request, res: express.Response) => {
     try {
         const { bugId, priorityNumber } = req.body;
