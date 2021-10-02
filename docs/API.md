@@ -24,6 +24,7 @@ API docs for the taskmaster server.
   - [Get all orgs](#Get-all-orgs)
 - [Team](#Team)
   - [Create a team](#Create-a-team)
+  - [Get all members of a team](#Get-all-members-of-a-team)
   - [Get all teams of the user](#Get-all-teams-of-the-user)
   - [Get team with id](#Get-team-with-id)
 
@@ -457,6 +458,38 @@ POST /api/v1/team/
 | orgId | `string` |  |
 | orgName | `string` |  |
 | teamName | `string` |  |
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
+## <a name='Get-all-members-of-a-team'></a> Get all members of a team
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+GET /api/v1/team/members/:teamId
+```
+
+### Success response example
+
+#### Success response example - `Success-Response:`
+
+```json
+HTTP/1.1 200
+ [
+     { 
+       "firstName": "abc",
+       "lastName": "name",
+       "role": "dev"  
+     }
+ ]
+```
 
 ### Error response
 
