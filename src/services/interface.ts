@@ -15,6 +15,13 @@ interface orgMember {
     role: string
 }
 
+interface teamMember {
+
+    firstName: string
+    lastName: string
+    role: string
+}
+
 interface bugStructure {
 
     teamId: string
@@ -36,6 +43,7 @@ interface orgStructure {
 export {
     authCredentials,
     orgMember,
+    teamMember,
     bugStructure,
     orgStructure
 }

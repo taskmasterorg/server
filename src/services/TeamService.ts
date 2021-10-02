@@ -1,4 +1,5 @@
-import { Organization, Team, TeamMember } from '../database';
+import { Organization, Team, TeamMember, User } from '../database';
+import { teamMember } from './interface';
 
 /**
  * Implements functionality for managing Teams and Team Members
@@ -87,6 +88,45 @@ class TeamService {
         } catch (err) {
             console.error(err);
         }
+    }
+
+     /**
+     * Get all members of a team
+     * @param id id of the team
+     * @returns A list of team members
+     */
+      public async getTeamMembers(id: string): Promise<teamMember[]> {
+
+        const members: teamMember[] = [];
+        try {
+            const membersFromDB = await TeamMember.find({
+                where: {
+                    team: {
+                        id: id
+                    }
+                }
+            });
+
+            for (let i = 0; i < membersFromDB.length; ++i) {
+
+                const userData = await User.findOne({
+                    where: {
+                        id: membersFromDB[i].userId
+                    }
+                });
+
+                if (userData) {
+                    members.push({
+                        firstName: userData.firstName,
+                        lastName: userData.lastName,
+                        role: membersFromDB[i].role
+                    })
+                }
+            }
+        } catch (err) {
+            console.error(err);
+        }
+        return members;
     }
 }
 
