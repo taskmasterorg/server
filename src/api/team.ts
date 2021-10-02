@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import TeamService from '../services/TeamService';
+import { TeamService, teamMember } from '../services';
 import { Organization, Team } from '../database';
 import { errorMessage404, errorMessage5XX } from './util';
 
@@ -46,6 +46,33 @@ teamRouter.get('/all/:userId', async (req: express.Request, res: express.Respons
             return;
         }
         res.status(404).json({ message: errorMessage404 });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: errorMessage5XX });
+    }
+});
+
+/**
+ * @api {get} /api/v1/team/members/:teamId Get all members of a team
+ * @apiName Team
+ * @apiGroup Team
+ * @apiError (ServerError) {json} 500 
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200
+ *      [
+ *          { 
+ *            "firstName": "abc",
+ *            "lastName": "name",
+ *            "role": "dev"  
+ *          }
+ *      ]
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
+ teamRouter.get('/members/:teamId', async (req: express.Request, res: express.Response) => {
+
+    try {
+        const members: teamMember[] = await teamService.getTeamMembers(req.params.orgId);
+        res.status(200).json(members);
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: errorMessage5XX });
