@@ -3,6 +3,7 @@ import { User, CacheLayer } from '../database';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from '../config';
+import { OrgService, TeamService } from '.';
 
 /**
  * Implements the authentication functionality.
@@ -115,6 +116,22 @@ class AuthService {
         await this.blacklistJWT(token, memory);
     }
 
+    /**
+     * Delete a user from the database
+     * @param id 
+     */
+    public async deleteUser(id: string, orgService: OrgService, teamService: TeamService): Promise<void> {
+
+        try {
+
+            await orgService.deleteOrgMember(id, teamService, true);
+            await User.delete({
+                id: id
+            });
+        } catch(err) {
+            console.error(err);
+        }
+    }
     private static createError(err: string | Error | unknown): Error {
 
         if (typeof err === "string") {

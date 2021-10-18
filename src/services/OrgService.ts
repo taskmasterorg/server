@@ -1,3 +1,4 @@
+import { TeamService } from '.';
 import { Organization, OrganizationMember, User } from '../database';
 import { orgMember, orgStructure } from './interface';
 
@@ -174,6 +175,80 @@ class OrgService {
             }
 
             throw new Error('Something went wrong.');
+        }
+    }
+
+     /**
+     * Delete an org and its teams and members from database
+     * @param id id of the org to be deleted
+     * @param teamService instance of the TeamService
+     */
+      public async deleteOrg(id: string, teamService: TeamService): Promise<void> {
+
+        try {
+
+            const teamsList = await teamService.getAllTeamsOfOrg(id);
+            if (!teamsList) {
+                return;
+            }
+
+            for (let i = 0; i < teamsList.length; ++i) {
+
+                await teamService.deleteTeamAndMembers(teamsList[i].id);
+            }
+            await OrganizationMember.delete({
+                org: {
+                    id: id
+                }
+            });
+
+            await Organization.delete({ 
+                id: id 
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    /**
+     * Delete an org member
+     * @param id team member's id or user id
+     * @param isUserId boolean
+     */
+    public async deleteOrgMember(id: string, teamService: TeamService, isUserId = false): Promise<void> {
+
+        try {
+
+            if (isUserId) {
+
+                const member = await OrganizationMember.findOne({
+                    where: {
+                        userId: id
+                    }
+                });
+
+                if (!member) {
+                    return;
+                }
+
+                await teamService.deleteTeamMember(id, true);
+                await member.remove()
+                return;
+            }
+            const member = await OrganizationMember.findOne({
+                where: {
+                    id: id
+                }
+            });
+
+            if (!member) {
+                return;
+            }
+
+            await teamService.deleteTeamMember(member.userId, true);
+            await member.remove();
+        } catch (err) {
+            console.error(err);
         }
     }
 }
