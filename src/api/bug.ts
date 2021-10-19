@@ -117,4 +117,24 @@ bugRouter.put('/priority', async (req: express.Request, res: express.Response) =
     } 
 });
 
+/**
+ * @api {delete} /api/v1/bug/ Delete a bug
+ * @apiName Bug
+ * @apiGroup Bug
+ * @apiParam {string} bugId
+ * @apiError (ServerError) {json} 500 
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
+bugRouter.delete('/', async (req: express.Request, res: express.Response) => {
+
+    try {
+        const { bugId } = req.body;
+        await bugService.deleteBug(bugId);
+        res.status(201).json({ message: 'OK'});
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: errorMessage5XX });
+    }
+});
+
 export default bugRouter;

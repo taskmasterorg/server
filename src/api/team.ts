@@ -107,4 +107,24 @@ teamRouter.post('/', async (req: express.Request, res: express.Response) => {
     }
 });
 
+/**
+ * @api {delete} /api/v1/team Delete a team
+ * @apiName Team
+ * @apiGroup Team
+ * @apiParam {string} orgId
+ * @apiError (ServerError) {json} 500 
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
+teamRouter.delete('/', async (req: express.Request, res: express.Response) => {
+
+    try {
+        const { teamId } = req.body;
+        await teamService.deleteTeamAndMembers(teamId);
+        res.status(201).json({ message: 'OK'});
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: errorMessage5XX });
+    }
+});
+
 export default teamRouter;
