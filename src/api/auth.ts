@@ -1,6 +1,6 @@
 import express, { Router, NextFunction } from 'express';
 import { errorMessage5XX, errorMessage400 } from './util';
-import { AuthService } from '../services';
+import { AuthService, OrgService, TeamService } from '../services';
 
 const authRouter: Router = express.Router();
 const authService: AuthService = AuthService.getInstance();
@@ -155,6 +155,29 @@ authRouter.post('/logout', async (req: express.Request, res: express.Response) =
          console.error(err);
          res.status(500).json({ message: errorMessage5XX });
      }
+ });
+
+ /**
+ * @api {delete} /api/v1/auth/ Delete user
+ * @apiName Auth
+ * @apiGroup Auth
+ * @apiParam {string} userId
+ * @apiError (ServerError) {json} 500
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
+ authRouter.delete('/', async (req: express.Request, res: express.Response) => {
+
+    try {
+
+        const { userId } = req.body
+        const orgService: OrgService = OrgService.getInstance();
+        const teamService: TeamService = TeamService.getInstance();
+        await authService.deleteUser(userId, orgService, teamService);
+        res.status(201).json({ message: 'OK'});
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: errorMessage5XX });
+    }
  });
 
 export {

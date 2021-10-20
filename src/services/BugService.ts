@@ -166,6 +166,21 @@ class BugService {
             console.error(err);
         }
     }
+
+    /**
+     * Delete a bug
+     * @param id id of the bug
+     */
+    public async deleteBug(id: string): Promise<void> {
+
+        try {
+            await Bug.delete({
+                id: id
+            });
+        } catch(err) {
+            console.error(err);
+        }
+    }
 }
 
 export default BugService;

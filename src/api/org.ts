@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { errorMessage5XX } from './util';
-import { orgMember, orgStructure, OrgService } from '../services/';
+import { orgMember, orgStructure, OrgService, TeamService } from '../services/';
 
 const orgService: OrgService = OrgService.getInstance();
 const orgRouter: Router = express.Router();
@@ -111,6 +111,27 @@ orgRouter.post('/addMember', async (req: express.Request, res: express.Response)
         res.status(201).json({
             message: 'Added!'
         });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: errorMessage5XX });
+    }
+});
+
+/**
+ * @api {delete} /api/v1/org/ Delete an org
+ * @apiName Org
+ * @apiGroup Org
+ * @apiParam {string} orgId
+ * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
+ */
+orgRouter.delete('/', async (req: express.Request, res: express.Response) => {
+
+    try {
+
+        const { orgId } = req.body;
+        const teamService: TeamService = TeamService.getInstance();
+        await orgService.deleteOrg(orgId, teamService);
+        res.status(201).json({ message: 'OK'});
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: errorMessage5XX });

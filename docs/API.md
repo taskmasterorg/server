@@ -6,6 +6,7 @@ API docs for the taskmaster server.
 # Table of contents
 
 - [Auth](#Auth)
+  - [Delete user](#Delete-user)
   - [Token verification](#Token-verification)
   - [User login](#User-login)
   - [User logout](#User-logout)
@@ -13,6 +14,7 @@ API docs for the taskmaster server.
 - [Bug](#Bug)
   - [Assign a bug to a member](#Assign-a-bug-to-a-member)
   - [Create a bug](#Create-a-bug)
+  - [Delete a bug](#Delete-a-bug)
   - [Get all bugs of a team](#Get-all-bugs-of-a-team)
   - [Get bug with id](#Get-bug-with-id)
   - [Update bug priority](#Update-bug-priority)
@@ -20,10 +22,12 @@ API docs for the taskmaster server.
 - [Org](#Org)
   - [Add a member to an org](#Add-a-member-to-an-org)
   - [Create an org](#Create-an-org)
+  - [Delete an org](#Delete-an-org)
   - [Get all members of an org](#Get-all-members-of-an-org)
   - [Get all orgs](#Get-all-orgs)
 - [Team](#Team)
   - [Create a team](#Create-a-team)
+  - [Delete a team](#Delete-a-team)
   - [Get all members of a team](#Get-all-members-of-a-team)
   - [Get all teams of the user](#Get-all-teams-of-the-user)
   - [Get team with id](#Get-team-with-id)
@@ -32,6 +36,29 @@ ___
 
 
 # <a name='Auth'></a> Auth
+
+## <a name='Delete-user'></a> Delete user
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+DELETE /api/v1/auth/
+```
+
+### Parameters - `Parameter`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| userId | `string` |  |
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
 
 ## <a name='Token-verification'></a> Token verification
 [Back to top](#top)
@@ -222,6 +249,29 @@ POST /api/v1/bug/
 |----------|------------|---------------------------------------|
 | 500 | `json` |  |
 
+## <a name='Delete-a-bug'></a> Delete a bug
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+DELETE /api/v1/bug/
+```
+
+### Parameters - `Parameter`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| bugId | `string` |  |
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
 ## <a name='Get-all-bugs-of-a-team'></a> Get all bugs of a team
 [Back to top](#top)
 
@@ -377,6 +427,21 @@ HTTP/1.1 201
 |----------|------------|---------------------------------------|
 | 500 | `json` |  |
 
+## <a name='Delete-an-org'></a> Delete an org
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+DELETE /api/v1/org/
+```
+
+### Parameters - `Parameter`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| orgId | `string` |  |
+
 ## <a name='Get-all-members-of-an-org'></a> Get all members of an org
 [Back to top](#top)
 
@@ -458,6 +523,29 @@ POST /api/v1/team/
 | orgId | `string` |  |
 | orgName | `string` |  |
 | teamName | `string` |  |
+
+### Error response
+
+#### Error response - `ServerError`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| 500 | `json` |  |
+
+## <a name='Delete-a-team'></a> Delete a team
+[Back to top](#top)
+
+<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+
+```
+DELETE /api/v1/team
+```
+
+### Parameters - `Parameter`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| orgId | `string` |  |
 
 ### Error response
 

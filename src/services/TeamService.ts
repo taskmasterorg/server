@@ -128,6 +128,79 @@ class TeamService {
         }
         return members;
     }
+
+    /**
+     * Get a list of all teams of given org
+     * @param id id of the org
+     * @returns A list if found, undefined otherwise
+     */
+    public async getAllTeamsOfOrg(id: string): Promise<Team[] | undefined> {
+
+        try {
+            const teamsList: Team[] = [];
+
+            const listFromDB = await TeamMember.find({
+                where: {
+                    org: {
+                        id: id
+                    }
+                }
+            });
+
+            for (let i = 0; i < listFromDB.length; ++i) {
+
+                teamsList.push(listFromDB[i].team);
+            }
+
+            return teamsList;
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    /**
+     * Delete a team and its members from database
+     * @param id id of the team to be deleted
+     */
+    public async deleteTeamAndMembers(id: string): Promise<void> {
+
+        try {
+
+            await TeamMember.delete({
+                team: {
+                    id: id
+                }
+            });
+            await Team.delete({ 
+                id: id 
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    /**
+     * Delete a team member
+     * @param id id of the team member to delete
+     */
+    public async deleteTeamMember(id: string, isUserId = false): Promise<void> {
+
+        try {
+
+            if (isUserId) {
+                
+                await TeamMember.delete({
+                    userId: id
+                });
+                return;
+            }
+            await TeamMember.delete({
+                id: id
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    }
 }
 
 export default TeamService;
