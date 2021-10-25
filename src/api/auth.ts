@@ -101,6 +101,7 @@ async function verifyTokenMiddleWare(req: express.Request, res: express.Response
  * @api {post} /api/v1/auth/logout User logout
  * @apiName Auth
  * @apiGroup Auth
+ * @apiParam {string} token user's jwt
  * @apiError (ServerError) {json} 500 
  * @apiSuccessExample {json} Success-Response:
  *     HTTP/1.1 201

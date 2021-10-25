@@ -146,6 +146,12 @@ HTTP/1.1 200
 POST /api/v1/auth/logout
 ```
 
+### Parameters - `Parameter`
+
+| Name     | Type       | Description                           |
+|----------|------------|---------------------------------------|
+| token | `string` | <p>user's jwt</p> |
+
 ### Success response example
 
 #### Success response example - `Success-Response:`
