@@ -124,40 +124,7 @@ authRouter.post('/logout', async (req: express.Request, res: express.Response) =
     }
 });
 
-/**
- * @api {post} /api/v1/auth/verifyJWT Token verification
- * @apiName Auth
- * @apiGroup Auth
- * @apiError (ClientError) {json} 400
- * @apiError (ServerError) {json} 500 
- * @apiSuccessExample {json} Success-Response:
- *     HTTP/1.1 201
- *      {
- *          "userId": "abc",
- *          "iat": "1393286893",
- *          "exp": "1393286893"
- *      }
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
- */
- authRouter.use('/', verifyTokenMiddleWare);
- authRouter.post('/verifyJWT', async (req: express.Request, res: express.Response) => {
-     
-     try {
-         const { serviceResponse } = req.body;
-         if (serviceResponse instanceof Error) {
-             res.status(400).json({ 
-                 message: errorMessage400,
-                 detail: serviceResponse.message });
-            return;
-         }
-         res.status(201).json({
-             serviceResponse: serviceResponse
-         });
-     } catch(err) {
-         console.error(err);
-         res.status(500).json({ message: errorMessage5XX });
-     }
- });
+authRouter.use('/', verifyTokenMiddleWare);
 
  /**
  * @api {delete} /api/v1/auth/ Delete user

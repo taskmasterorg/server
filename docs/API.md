@@ -7,7 +7,6 @@ API docs for the taskmaster server.
 
 - [Auth](#Auth)
   - [Delete user](#Delete-user)
-  - [Token verification](#Token-verification)
   - [User login](#User-login)
   - [User logout](#User-logout)
   - [User signup](#User-signup)
@@ -53,42 +52,6 @@ DELETE /api/v1/auth/
 | userId | `string` |  |
 
 ### Error response
-
-#### Error response - `ServerError`
-
-| Name     | Type       | Description                           |
-|----------|------------|---------------------------------------|
-| 500 | `json` |  |
-
-## <a name='Token-verification'></a> Token verification
-[Back to top](#top)
-
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
-
-```
-POST /api/v1/auth/verifyJWT
-```
-
-### Success response example
-
-#### Success response example - `Success-Response:`
-
-```json
-HTTP/1.1 201
- {
-     "userId": "abc",
-     "iat": "1393286893",
-     "exp": "1393286893"
- }
-```
-
-### Error response
-
-#### Error response - `ClientError`
-
-| Name     | Type       | Description                           |
-|----------|------------|---------------------------------------|
-| 400 | `json` |  |
 
 #### Error response - `ServerError`
 
