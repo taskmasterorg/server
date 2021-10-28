@@ -50,7 +50,11 @@ authRouter.post('/signup', async (req: express.Request, res: express.Response) =
  * @apiSuccessExample {json} Success-Response:
  *     HTTP/1.1 200
  *      {
- *          "message": "Okay"
+ *          "userId": "someId",
+ *          "jwt": "someToken",
+ *          "firstName": "firstName",
+ *          "lastName": "lastName",
+ *          "email": "email"
  *      }
  * @apiDescription Http-Only cookie is set.
  */

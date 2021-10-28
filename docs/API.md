@@ -119,7 +119,11 @@ POST /api/v1/auth/login
 ```json
 HTTP/1.1 200
  {
-     "message": "Okay"
+     "userId": "someId",
+     "jwt": "someToken",
+     "firstName": "firstName",
+     "lastName": "lastName",
+     "email": "email"
  }
 ```
 
