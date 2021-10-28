@@ -40,10 +40,19 @@ interface orgStructure {
     orgName: string
 }
 
+interface userDataForClient {
+    userId: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    jwt: string
+}
+
 export {
     authCredentials,
     orgMember,
     teamMember,
     bugStructure,
-    orgStructure
+    orgStructure,
+    userDataForClient
 }

@@ -1,4 +1,4 @@
-import { authCredentials } from './interface';
+import { authCredentials, userDataForClient } from './interface';
 import { User, CacheLayer } from '../database';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -65,22 +65,23 @@ class AuthService {
     /**
      * Creates a JWT and returns it.
      * @param credentials 
-     * @returns An error if it occurs, a JWT otherwise.
+     * @returns An error if it occurs, an object containing user info otherwise.
      */
-    public async login(credentials: authCredentials): Promise<Error | string> {
+    public async login(credentials: authCredentials): Promise<Error | userDataForClient> {
 
         if (!(await this.emailExists(credentials.email)) || 
             !(await this.comparePassword(credentials))) {
                 return new Error(this.errorMessageLogin);
         }
 
-        const id: string | Error = await this.getUserId(credentials);
+        const responseFromDB: userDataForClient | Error = await this.getUserData(credentials);
 
-        if (typeof id === 'string') {
-            return this.createJWT(id);
+        if (responseFromDB instanceof Error) {
+            return responseFromDB;
         }
 
-        return id;
+        responseFromDB.jwt = this.createJWT(responseFromDB.userId);
+        return responseFromDB;
     }
 
     /**
@@ -132,6 +133,7 @@ class AuthService {
             console.error(err);
         }
     }
+
     private static createError(err: string | Error | unknown): Error {
 
         if (typeof err === "string") {
@@ -198,7 +200,7 @@ class AuthService {
         return bcrypt.hash(password, 10);
     }
 
-    private async getUserId(credentials: authCredentials): Promise<Error | string> {
+    private async getUserData(credentials: authCredentials): Promise<Error | userDataForClient> {
 
         const user: User | undefined = await User.findOne({
             where: {
@@ -210,7 +212,13 @@ class AuthService {
             return new Error('User does not exist.');
         }
 
-        return user.id;
+        return {
+            userId: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            jwt: ''
+        }
     }
 
     private createJWT(userId: string): string {

@@ -65,13 +65,11 @@ authRouter.post('/login', async (req: express.Request, res: express.Response) =>
                 detail: serviceResponse.message });
             return;
         }
-        res.cookie('token', serviceResponse, {
+        res.cookie('token', serviceResponse.jwt, {
             maxAge: 3 * 24 * 60 * 60,
             httpOnly: true
         });
-        res.status(200).json({
-            message: 'Okay'
-        });
+        res.status(200).json(serviceResponse);
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: errorMessage5XX });
