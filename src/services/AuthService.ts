@@ -13,7 +13,7 @@ class AuthService {
     private static instance: AuthService;
     private static memory: CacheLayer;
     private errorMessageName: string = 'Firstname and lastname are required for signing up.';
-    private errorMessageCredFormat: string = 'Invalid email/password format. (Password: Minimum eight characters, at least one letter and one number)';
+    private errorMessageCredFormat: string = 'Invalid email/password format. (Password: Minimum eight characters, at least one uppercase letter, one lowercase letter, one special character.';
     private errorMessageEmail: string = 'Email exists in the database.';
     private errorMessageLogin: string = 'Invalid email/password combination.';
     private constructor() {
@@ -156,7 +156,7 @@ class AuthService {
         const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         
         //eslint-disable-next-line
-        const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        const regexPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
 
         return regexEmail.test(email) && regexPassword.test(password);
     }
