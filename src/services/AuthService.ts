@@ -223,7 +223,7 @@ class AuthService {
 
     private createJWT(userId: string): string {
         
-        const TOKEN_AGE = 3 * 24 * 60 * 60;
+        const TOKEN_AGE = '1d';
         const token = jwt.sign({ userId }, config.JWT_SECRET, { expiresIn: TOKEN_AGE });
         return token;
     }
