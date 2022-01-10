@@ -7,7 +7,7 @@ class Chat extends BaseEntity {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @ManyToOne(() => Team)
+    @ManyToOne(() => Team, { eager: true })
     team: Team;
 
     @Column()

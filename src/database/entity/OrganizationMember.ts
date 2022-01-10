@@ -7,7 +7,7 @@ class OrganizationMember extends BaseEntity {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @ManyToOne(() => Organization)
+    @ManyToOne(() => Organization, { eager: true })
     org: Organization;
 
     @Column("uuid")
