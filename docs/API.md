@@ -40,8 +40,6 @@ ___
 ## <a name='Delete-user'></a> Delete user
 [Back to top](#top)
 
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
-
 ```
 DELETE /api/v1/auth/
 ```
@@ -62,8 +60,6 @@ DELETE /api/v1/auth/
 
 ## <a name='Token-verification'></a> Token verification
 [Back to top](#top)
-
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
 
 ```
 POST /api/v1/auth/verifyJWT
@@ -98,8 +94,6 @@ HTTP/1.1 201
 
 ## <a name='User-login'></a> User login
 [Back to top](#top)
-
-<p>Http-Only cookie is set.</p>
 
 ```
 POST /api/v1/auth/login
@@ -215,8 +209,6 @@ HTTP/1.1 201
 ## <a name='Assign-a-bug-to-a-member'></a> Assign a bug to a member
 [Back to top](#top)
 
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
-
 ```
 PUT /api/v1/bug/assign
 ```
@@ -239,7 +231,7 @@ PUT /api/v1/bug/assign
 ## <a name='Create-a-bug'></a> Create a bug
 [Back to top](#top)
 
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
+<p>For parameters, refer bugStructure at: https://github.com/taskmasterorg/server/blob/main/src/services/interface.ts</p>
 
 ```
 POST /api/v1/bug/
@@ -255,8 +247,6 @@ POST /api/v1/bug/
 
 ## <a name='Delete-a-bug'></a> Delete a bug
 [Back to top](#top)
-
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
 
 ```
 DELETE /api/v1/bug/
@@ -279,8 +269,6 @@ DELETE /api/v1/bug/
 ## <a name='Get-all-bugs-of-a-team'></a> Get all bugs of a team
 [Back to top](#top)
 
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
-
 ```
 GET /api/v1/bug/all/:teamId
 ```
@@ -296,8 +284,6 @@ GET /api/v1/bug/all/:teamId
 ## <a name='Get-bug-with-id'></a> Get bug with id
 [Back to top](#top)
 
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
-
 ```
 GET /api/v1/bug/one/:id
 ```
@@ -312,8 +298,6 @@ GET /api/v1/bug/one/:id
 
 ## <a name='Update-bug-priority'></a> Update bug priority
 [Back to top](#top)
-
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
 
 ```
 PUT /api/v1/bug/priority
@@ -336,8 +320,6 @@ PUT /api/v1/bug/priority
 
 ## <a name='Update-bug-status'></a> Update bug status
 [Back to top](#top)
-
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
 
 ```
 PUT /api/v1/bug/assign
@@ -362,8 +344,6 @@ PUT /api/v1/bug/assign
 
 ## <a name='Add-a-member-to-an-org'></a> Add a member to an org
 [Back to top](#top)
-
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
 
 ```
 POST /api/v1/org/addMember
@@ -399,8 +379,6 @@ HTTP/1.1 201
 ## <a name='Create-an-org'></a> Create an org
 [Back to top](#top)
 
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
-
 ```
 POST /api/v1/org/create
 ```
@@ -434,8 +412,6 @@ HTTP/1.1 201
 ## <a name='Delete-an-org'></a> Delete an org
 [Back to top](#top)
 
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
-
 ```
 DELETE /api/v1/org/
 ```
@@ -448,8 +424,6 @@ DELETE /api/v1/org/
 
 ## <a name='Get-all-members-of-an-org'></a> Get all members of an org
 [Back to top](#top)
-
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
 
 ```
 GET /api/v1/org/members/:orgId
@@ -480,8 +454,6 @@ HTTP/1.1 200
 
 ## <a name='Get-all-orgs'></a> Get all orgs
 [Back to top](#top)
-
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
 
 ```
 GET /api/v1/org/all/:userId
@@ -514,8 +486,6 @@ HTTP/1.1 200
 ## <a name='Create-a-team'></a> Create a team
 [Back to top](#top)
 
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
-
 ```
 POST /api/v1/team/
 ```
@@ -539,8 +509,6 @@ POST /api/v1/team/
 ## <a name='Delete-a-team'></a> Delete a team
 [Back to top](#top)
 
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
-
 ```
 DELETE /api/v1/team
 ```
@@ -561,8 +529,6 @@ DELETE /api/v1/team
 
 ## <a name='Get-all-members-of-a-team'></a> Get all members of a team
 [Back to top](#top)
-
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
 
 ```
 GET /api/v1/team/members/:teamId
@@ -594,8 +560,6 @@ HTTP/1.1 200
 ## <a name='Get-all-teams-of-the-user'></a> Get all teams of the user
 [Back to top](#top)
 
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
-
 ```
 GET /api/v1/team/all/:userId
 ```
@@ -610,8 +574,6 @@ GET /api/v1/team/all/:userId
 
 ## <a name='Get-team-with-id'></a> Get team with id
 [Back to top](#top)
-
-<p>Http-Only cookie is used over here to verify and decode JWT.</p>
 
 ```
 GET /api/v1/team/one/:teamId
