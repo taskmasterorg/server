@@ -18,7 +18,6 @@ const orgRouter: Router = express.Router();
  *            "orgName": "name"
  *          }
  *      ]
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 orgRouter.get('/all/:userId', async (req: express.Request, res: express.Response) => {
     
@@ -46,7 +45,6 @@ orgRouter.get('/all/:userId', async (req: express.Request, res: express.Response
  *            "role": "dev"  
  *          }
  *      ]
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 orgRouter.get('/members/:orgId', async (req: express.Request, res: express.Response) => {
 
@@ -72,7 +70,6 @@ orgRouter.get('/members/:orgId', async (req: express.Request, res: express.Respo
  *          { 
  *              "message": "Created!"
  *          }
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 orgRouter.post('/create', async (req: express.Request, res: express.Response) => {
 
@@ -101,7 +98,6 @@ orgRouter.post('/create', async (req: express.Request, res: express.Response) =>
   *       { 
  *          message: "Added!"
  *        }
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 orgRouter.post('/addMember', async (req: express.Request, res: express.Response) => {
 
@@ -122,7 +118,6 @@ orgRouter.post('/addMember', async (req: express.Request, res: express.Response)
  * @apiName Org
  * @apiGroup Org
  * @apiParam {string} orgId
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 orgRouter.delete('/', async (req: express.Request, res: express.Response) => {
 

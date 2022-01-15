@@ -11,7 +11,6 @@ const teamRouter: Router = express.Router();
  * @apiName Team
  * @apiGroup Team
  * @apiError (ServerError) {json} 500 
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 teamRouter.get('/one/:id', async (req: express.Request, res: express.Response) => {
     
@@ -33,7 +32,6 @@ teamRouter.get('/one/:id', async (req: express.Request, res: express.Response) =
  * @apiName Team
  * @apiGroup Team
  * @apiError (ServerError) {json} 500 
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 teamRouter.get('/all/:userId', async (req: express.Request, res: express.Response) => {
     
@@ -66,7 +64,6 @@ teamRouter.get('/all/:userId', async (req: express.Request, res: express.Respons
  *            "role": "dev"  
  *          }
  *      ]
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
  teamRouter.get('/members/:teamId', async (req: express.Request, res: express.Response) => {
 
@@ -87,7 +84,6 @@ teamRouter.get('/all/:userId', async (req: express.Request, res: express.Respons
  * @apiParam {string} orgName
  * @apiParam {string} teamName
  * @apiError (ServerError) {json} 500 
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 teamRouter.post('/', async (req: express.Request, res: express.Response) => {
     
@@ -113,7 +109,6 @@ teamRouter.post('/', async (req: express.Request, res: express.Response) => {
  * @apiGroup Team
  * @apiParam {string} orgId
  * @apiError (ServerError) {json} 500 
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 teamRouter.delete('/', async (req: express.Request, res: express.Response) => {
 
