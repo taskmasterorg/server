@@ -78,7 +78,14 @@ authRouter.post('/login', async (req: express.Request, res: express.Response) =>
 async function verifyTokenMiddleWare(req: express.Request, res: express.Response, next: NextFunction): Promise<any> {
 
     try {
-        const { token } = req.body;
+        let header = req.headers.authorization;
+        if (!header) {
+            res.status(400).json({ 
+                message: errorMessage400,
+                detail: 'no header' });
+            return;
+        }
+        let token = header.split(' ')[1];
         const serviceResponse = await authService.verifyAndDecodeJWT(token);
         if (serviceResponse instanceof Error) {
             res.status(400).json({ 
