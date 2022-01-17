@@ -10,7 +10,6 @@ const bugRouter: Router = express.Router();
  * @apiName Bug
  * @apiGroup Bug
  * @apiError (ServerError) {json} 500 
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 bugRouter.get('/one/:id', async (req: express.Request, res: express.Response) => {
     try {
@@ -27,7 +26,6 @@ bugRouter.get('/one/:id', async (req: express.Request, res: express.Response) =>
  * @apiName Bug
  * @apiGroup Bug
  * @apiError (ServerError) {json} 500 
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 bugRouter.get('/all/:teamId', async (req: express.Request, res: express.Response) => {
     try {
@@ -45,7 +43,6 @@ bugRouter.get('/all/:teamId', async (req: express.Request, res: express.Response
  * @apiGroup Bug
  * @apiError (ServerError) {json} 500 
  * @apiDescription For parameters, refer bugStructure at: https://github.com/taskmasterorg/server/blob/main/src/services/interface.ts
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 bugRouter.post('/', async (req: express.Request, res: express.Response) => {
     try {
@@ -64,7 +61,6 @@ bugRouter.post('/', async (req: express.Request, res: express.Response) => {
  * @apiParam {string} bugId
  * @apiParam {string} teamMemberId
  * @apiError (ServerError) {json} 500 
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 bugRouter.put('/assign', async (req: express.Request, res: express.Response) => {
     try {
@@ -84,7 +80,6 @@ bugRouter.put('/assign', async (req: express.Request, res: express.Response) => 
  * @apiParam {string} bugId
  * @apiParam {number} status
  * @apiError (ServerError) {json} 500 
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 bugRouter.put('/status', async (req: express.Request, res: express.Response) => {
     try {
@@ -104,7 +99,6 @@ bugRouter.put('/status', async (req: express.Request, res: express.Response) => 
  * @apiParam {string} bugId
  * @apiParam {number} priorityNumber
  * @apiError (ServerError) {json} 500 
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 bugRouter.put('/priority', async (req: express.Request, res: express.Response) => {
     try {
@@ -123,7 +117,6 @@ bugRouter.put('/priority', async (req: express.Request, res: express.Response) =
  * @apiGroup Bug
  * @apiParam {string} bugId
  * @apiError (ServerError) {json} 500 
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
 bugRouter.delete('/', async (req: express.Request, res: express.Response) => {
 

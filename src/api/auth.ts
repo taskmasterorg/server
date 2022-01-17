@@ -56,7 +56,6 @@ authRouter.post('/signup', async (req: express.Request, res: express.Response) =
  *          "lastName": "lastName",
  *          "email": "email"
  *      }
- * @apiDescription Http-Only cookie is set.
  */
 authRouter.post('/login', async (req: express.Request, res: express.Response) => {
     try {
@@ -69,10 +68,6 @@ authRouter.post('/login', async (req: express.Request, res: express.Response) =>
                 detail: serviceResponse.message });
             return;
         }
-        res.cookie('token', serviceResponse.jwt, {
-            maxAge: 3 * 24 * 60 * 60,
-            httpOnly: true
-        });
         res.status(200).json(serviceResponse);
     } catch (err) {
         console.error(err);
@@ -83,7 +78,14 @@ authRouter.post('/login', async (req: express.Request, res: express.Response) =>
 async function verifyTokenMiddleWare(req: express.Request, res: express.Response, next: NextFunction): Promise<any> {
 
     try {
-        const { token } = req.cookies;
+        let header = req.headers.authorization;
+        if (!header) {
+            res.status(400).json({ 
+                message: errorMessage400,
+                detail: 'no header' });
+            return;
+        }
+        let token = header.split(' ')[1];
         const serviceResponse = await authService.verifyAndDecodeJWT(token);
         if (serviceResponse instanceof Error) {
             res.status(400).json({ 
@@ -137,7 +139,6 @@ authRouter.post('/logout', async (req: express.Request, res: express.Response) =
  *          "iat": "1393286893",
  *          "exp": "1393286893"
  *      }
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
  authRouter.use('/', verifyTokenMiddleWare);
  authRouter.post('/verifyJWT', async (req: express.Request, res: express.Response) => {
@@ -165,7 +166,6 @@ authRouter.post('/logout', async (req: express.Request, res: express.Response) =
  * @apiGroup Auth
  * @apiParam {string} userId
  * @apiError (ServerError) {json} 500
- * @apiDescription Http-Only cookie is used over here to verify and decode JWT.
  */
  authRouter.delete('/', async (req: express.Request, res: express.Response) => {
 
